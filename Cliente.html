@@ -53,7 +53,7 @@ function loadCompromisso(id) {
             "visibility" : "visible",
             "display" : "block"
         });
-        $("#fieldset").html(" Editando Compromisso ");
+        $("#fieldsetCompromisso").html(" Editando Compromisso ");
     });
 }
 
@@ -64,16 +64,10 @@ function loadCompromissoNome(user) {
             "visibility" : "visible",
             "display" : "block"
         });
-        $("#fieldset").html(" Editando Compromisso ");
+        $("#fieldsetCompromisso").html(" Editando Compromisso ");
     });
 }
 
-function clearForm() {
-    $("#fieldset").html("");
-    fillForm({
-        "name" : ""
-    });
-}
 
 function fillForm(compromisso) {
 
@@ -128,60 +122,40 @@ function saveOrUpdate() {
     if ($("#compromissoId").val() != null && $("#compromissoId").val() != "") {
         updateCompromissot($('#compromisso').val(), formToJSON(), function(data, textStatus, jqXHR) {
             alert('Compromisso atualizado com sucesso!');
-            clearForm();
             $("#formCompromisso").css({
-                "visibility" : "hidden",
-                "display" : "none"
+                "visibility" : "visible",
+                "display" : "block"
             });
             findAll();
         });
     } else {
         addCompromisso(formToJSON(), function(data, textStatus, jqXHR) {
             alert('Compromisso criado com sucesso!');
-            clearForm();
             $("#formCompromisso").css({
-                "visibility" : "hidden",
-                "display" : "none"
+                "visibility" : "visible",
+                "display" : "block  "
             });
             findAll(renderList);
         });
     }
 }
-function AlertsaveOrUpdate() {
-    if ($("#compromissoId").val() != null && $("#compromissoId").val() != "") {
-        addAlerta($('#compromisso').val(), formToJSON(), function(data, textStatus, jqXHR) {
-            alert('Alerta adicionado com sucesso!');
-            clearForm();
-            $("#formAlerta").css({
-                "visibility" : "hidden",
-                "display" : "none"
-            });
-            findAll();
-        });
-    } else {
-            alert('Compromisso inexistente!');
-            
-        };
-    }
-
+ 
 function registerSaveOrUpdate() {
     if ($("#userId").val() != null && $("#userId").val() != "") {
         updateUser($('#UserId').val(), registerTOJSON(), function(data, textStatus, jqXHR) {
             alert('Usuario atualizado com sucesso!');
-            clearForm();
             $("#formRegistro").css({
-                "visibility" : "hidden",
-                "display" : "none"
+                "visibility" : "visible",
+                "display" : "block"
             });
             findAll();
         });
     } else {
         addUser(registerTOJSON(), function(data, textStatus, jqXHR) {
             alert('Usuario criado com sucesso!');
-            clearForm();
             $("#formRegistro").css({
-                "visibility" : "hidden",
-                "display" : "none"
+                "visibility" : "visible",
+                "display" : "block"
             });
             findAll(renderList);
         });
@@ -189,36 +163,32 @@ function registerSaveOrUpdate() {
 }
 
 function newCompromisso() {
-    clearForm();
     $("#formCompromisso").css({
         "visibility" : "visible",
         "display" : "block"
     });
-    $("#fieldset").html("Novo Compromisso");
+    $("#fieldsetCompromisso").html("Novo Compromisso");
 }
 function cancelCompromisso() {
 
 $("#formCompromisso").css({
-    "visibility" : "hidden",
-    "display" : "none"
+    "visibility" : "visible",
+    "display" : "block"
 });
-clearForm();
 }
 function newUsuario() {
-    clearForm();
     $("#formRegistro").css({
         "visibility" : "visible",
         "display" : "block"
     });
-    $("#fieldset").html(" Novo Usuario");
+    $("#fieldsetLogin").html(" Novo Usuario");
 }
 function cancelUsuario() {
 
 $("#formRegistro").css({
-    "visibility" : "hidden",
-    "display" : "none"
+    "visibility" : "visible",
+    "display" : "block"
 });
-clearForm();
 }
 
 function searchDate() {
@@ -226,13 +196,19 @@ function searchDate() {
 }
 
 function removeCompromisso(id) {
-    deleteCompromisso(id, function(data, textStatus, jqXHR) {
+    deleteCompromisso(user, compromisso, function(data, textStatus, jqXHR) {
         alert('Compromisso removido com sucesso!');
         findAll(renderList);
     });
 }
 
+function cancelAlerta() {
 
+$("#formAlerta").css({
+    "visibility" : "visible",
+    "display" : "block"
+});
+}
 
 function renderList(data) {
 
@@ -255,7 +231,6 @@ function renderList(data) {
             html += " | " + compromisso.alertas[0].nome + " | ";
                     + compromisso.alertas[0].data + " | ";
         }
-
         html += "</li>";
 
     }
@@ -298,10 +273,7 @@ for ( var i = 0; i < data.length; i++) {
         html += " | " + compromisso.alertas[0].nome + " | ";
                 + compromisso.alertas[0].data + " | ";
     }
-
-    html += "<input type='button' value='-' title='Apagar este Compromisso' onclick='removeCompromisso("
-            + compromisso.id + ")'>";
-
+    
     html += "</li>";
 
 }
@@ -329,16 +301,16 @@ $(function() {
     <hr />
     <div id="result"></div>
 
-    <input type="button" value="Registrar" onclick="newUsuario();">
+    <input type="button" style="visibility: Hidden;" value="Registrar" onclick="newUsuario();">
 
     <br />
     <br />
 
-    <div id="formRegistro" style="visibility: hidden; display: none;">
+    <div id="formRegistro" style="visibility: visible; display: block;">
 
         <form>
             <fieldset>
-                <legend id="fieldset"></legend>
+                <legend id="fieldsetLogin"></legend>
                 <input id="UserId" type="hidden"> <label
                     for="txtAnfitriao">Nome: </label> <input id="txtAnfitriao"
                     type="text" name="nome" /><br /> 
@@ -377,11 +349,11 @@ $(function() {
     <br />
     <br />
 
-    <div id="formCompromisso" style="visibility: hidden; display: none;">
+    <div id="formCompromisso" style="visibility: visible; display: block;">
 
         <form>
             <fieldset>
-                <legend id="fieldset">Cadastrar Compromisso</legend>
+                <legend id="fieldsetCompromisso">Cadastrar Compromisso</legend>
                 <input id="compromissoId" type="hidden"> <label
                     for="txtnomeEvento">Nome Compromisso: </label> <input id="txtnomeEvento"
                     type="text" name="nomeEvento" /><br /> 
@@ -403,7 +375,24 @@ $(function() {
             </fieldset>
         </form>
     </div>
-    
+
+    <div id="formDeletar" style="visibility: visible; display: block;">
+
+        <form>
+            <fieldset>
+                <legend id="fieldsetDeletar">Deletar Compromisso</legend>
+                <input id="compromissoId" type="hidden"> <label
+                    for="txtUserCompromisso">Nome Usuario: </label> <input id="txtUserCompromisso"
+                    type="text" name="txtUserCompromisso" /><br /> 
+                    <label
+                    for="txtNomeEventoDel">Nome Compromisso: </label> <input id="txtNomeEventoDel"
+                    type="text" name="txtNomeEventoDel" /><input
+                    type="button" value="Deletar Compromisso/Alerta"
+                    onclick="deleteCompromisso($('#txtUserCompromisso').val(),$('#txtNomeEventoDel').val())">
+
+            </fieldset>
+        </form>
+    </div>
 
 </body>
 
@@ -416,49 +405,58 @@ $(function() {
             <legend>Aceitar Convite Compromisso</legend>
 
         </fieldset>
-        <div id="formAlerta" style="visibility: hidden; display: none;">
+        <div id="formAlerta" style="visibility: visible; display: block;">
 
             <form>
                 <fieldset>
-                    <legend id="fieldset">Cadastrar Alerta</legend>
+                    <legend id="fieldsetAlerta">Cadastrar Alerta</legend>
                     <input id="compromissoId" type="hidden"> <label
-                        for="txtnomeEvento">Nome Compromisso: </label> <input id="txtnomeEvento"
-                        type="text" name="name" /><br /> 
+                        for="txtnomeAlerta">Nome Compromisso: </label> <input id="txtnomeAlerta"
+                        type="text" name="txtnomeAlerta" /><br /> 
                         <label
-                        for="txtdataEvento">Data Alerta </label> <input id="txtdataEvento"
-                        type="text" name="dataEvento" /><br />
+                        for="txtnomeConvidado">Nome Convidado: </label> <input id="txtnomeConvidado"
+                        type="text" name="txtnomeConvidado" /><br /> 
+                        <label
+                        for="txtdataAlerta">Data Alerta </label> <input id="txtdataAlerta"
+                        type="text" name="txtdataAlerta" /><br />
                  <input id="btnSave" type="button" value="Salvar"
-                        onclick="saveOrUpdate();"> <input
+                        onclick="addAlerta($('#txtnomeAlerta').val(), $('#txtnomeConvidado').val(), $('#txtdataAlerta').val())"> <input
                         id="btnCancel" type="reset" value="Cancelar"
-                        onclick="cancelCompromisso();">
+                        onclick="cancelAlerta();">
     
                 </fieldset>
             </form>
         </div>
         </div>
-        <div id="Alerta">
-            <fieldset>
-                <script>
-                while(true){
-                    if(typeof(EventSource) !== "undefined") {
-                    var source = new EventSource("http://localhost:8080/sse/user?nome="+user);
-                    source.onmessage = function(event) {
-                      document.getElementById("result").innerHTML += event.data + "<br>";
-                    };
-                  } else {
-                    document.getElementById("result").innerHTML = "Sorry, your browser does not support server-sent events...";
-                  }
-                }
-                  </script>>
-                        </fieldset>
-                    </form>
-                </div>
-            </fieldset>
+		<h1>Eventos Recebidos</h1>
+		<div id="Eventos"></div>
 
-        </div>
+			<script>
+				if(typeof(EventSource) !== "undefined") {
+				  var source = new EventSource("http://localhost:8080/sse/user?nome=Cesar");
+				  source.onmessage = function(event) {
+					document.getElementById("Eventos").innerHTML += event.data + "<br>";
+				  };
+				} else {
+				  document.getElementById("Eventos").innerHTML = "Sorry, your browser does not support server-sent events...";
+				}
+			</script>
     </div>
-    
+	
+		<h1>Alertas Recebidos</h1>
+		<div id="Alerta"></div>
 
+			<script>
+				if(typeof(EventSource) !== "undefined") {
+				  var source = new EventSource("http://localhost:8080/sse/user?nome=Cesar_ALERTA");
+				  source.onmessage = function(event) {
+					document.getElementById("Alerta").innerHTML += event.data + "<br>";
+				  };
+				} else {
+				  document.getElementById("Alerta").innerHTML = "Sorry, your browser does not support server-sent events...";
+				}
+			</script>
+    </div>
     </div>
 
 </body>

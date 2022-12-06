@@ -81,13 +81,11 @@ function updateCompromisso(id, compromisso, callback) {
 		}
 	});
 }	
-function addAlerta(compromisso, callback) {
+function addAlerta(compromisso, convidado, dataAlerta, callback) {
 	$.ajax({
 		type : 'POST',
 		contentType : 'application/json',
-		url : rootURL,
-		dataType : "json",
-		data : compromisso,
+		url : rootURL+'/alerta?nomeEvento='+compromisso+'&nome='+convidado+'&data='+dataAlerta,
 		success : callback,
 		error : function(jqXHR, textStatus, errorThrown) {
 			alert('Erro criando contato: ' + jqXHR.responseText);
@@ -108,17 +106,16 @@ function updateAlerta(user, compromisso, callback) {
 	});
 }
 
-function deleteCompromisso(id, callback) {
+function deleteCompromisso(nome, compromisso, callback) {
 	$.ajax({
 		type : 'DELETE',
-		url : rootURL + '?compromissoId=' + id,
+		url : rootURL+'/evento' + '?nomeEvento=' + compromisso +'&nome=' +nome,
 		success : callback,
 		error : function(jqXHR, textStatus, errorThrown) {
 			alert('Erro excluindo Compromisso: ' + textStatus);
 		}
 	});
 }
-
 function getAlertas(user,callback) { 
 	$.ajax({
 		type : 'GET',
