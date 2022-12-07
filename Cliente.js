@@ -1,5 +1,5 @@
 var rootURL = "http://localhost:8080/sse";
-
+var localUser=null;
 function findAll(callback) {
 	$.ajax({
 		type : 'GET',
@@ -53,6 +53,7 @@ function addUser(user, callback) {
 		data : user,
 		success : callback,
 	});
+	teste(user);
 }
 
 function addCompromisso(compromisso, callback) {
@@ -127,3 +128,28 @@ function getAlertas(user,callback) {
 		}
 });
 }
+
+function teste(user) {
+	var obj = JSON.parse(user)
+	console.log(obj.nome);
+	if(typeof(EventSource) !== "undefined") {
+	  var source = new EventSource("http://localhost:8080/sse/user?nome="+obj.nome);
+	  source.onmessage = function(event) {
+		document.getElementById("Eventos").innerHTML += event.data + "<br>";
+	  };
+	} else {
+	  document.getElementById("Eventos").innerHTML = "Sorry, your browser does not support server-sent events...";
+	}
+	if(typeof(EventSource) !== "undefined") {
+	var source = new EventSource("http://localhost:8080/sse/user?nome="+obj.nome+"_ALERTA");
+		source.onmessage = function(event) {
+		document.getElementById("Alerta").innerHTML += event.data + "<br>";
+	};
+	} else {
+	  document.getElementById("Alerta").innerHTML = "Sorry, your browser does not support server-sent events...";
+	}
+	
+}
+
+
+  

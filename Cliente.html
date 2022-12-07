@@ -224,13 +224,17 @@ function renderList(data) {
                 + "</strong>";
 
         if (compromisso.convidados != null && compromisso.convidados.length > 0) {
-            html += " | " + compromisso.convidados[0].nome + " | ";
+            for(var j = 0; j<compromisso.convidados.length;j++){
+             html += " |Convidado| " + compromisso.convidados[j].nome + " | ";
+            }
         }
 
         if (compromisso.alertas != null && compromisso.alertas.length > 0) {
-            html += " | " + compromisso.alertas[0].nome + " | ";
-                    + compromisso.alertas[0].data + " | ";
-        }
+           for(var k = 0; k<compromisso.alertas.length; k++){
+            html += " |Alerta| " + compromisso.alertas[k].nome + " | "
+                    + compromisso.alertas[k].horaAlerta + " | ";
+            }
+                }
         html += "</li>";
 
     }
@@ -265,14 +269,18 @@ for ( var i = 0; i < data.length; i++) {
             + compromisso.nomeEvento + " | " + compromisso.anfitriao + " | " + compromisso.dataEvento + ' | ' + compromisso.horarioEvento
             + "</strong>";
 
-    if (compromisso.convidados != null && compromisso.convidados.length > 0) {
-        html += " | " + compromisso.convidados[0].nome + " | ";
-    }
+            if (compromisso.convidados != null && compromisso.convidados.length > 0) {
+            for(var j = 0; j<compromisso.convidados.length;j++){
+             html += " |Convidado| " + compromisso.convidados[j].nome + " | ";
+            }
+        }
 
-    if (compromisso.alertas != null && compromisso.alertas.length > 0) {
-        html += " | " + compromisso.alertas[0].nome + " | ";
-                + compromisso.alertas[0].data + " | ";
-    }
+        if (compromisso.alertas != null && compromisso.alertas.length > 0) {
+           for(var k = 0; k<compromisso.alertas.length; k++){
+            html += " |Alerta| " + compromisso.alertas[k].nome + " | "
+                    + compromisso.alertas[k].horaAlerta + " | ";
+            }
+        }
     
     html += "</li>";
 
@@ -431,31 +439,11 @@ $(function() {
 		<h1>Eventos Recebidos</h1>
 		<div id="Eventos"></div>
 
-			<script>
-				if(typeof(EventSource) !== "undefined") {
-				  var source = new EventSource("http://localhost:8080/sse/user?nome=Cesar");
-				  source.onmessage = function(event) {
-					document.getElementById("Eventos").innerHTML += event.data + "<br>";
-				  };
-				} else {
-				  document.getElementById("Eventos").innerHTML = "Sorry, your browser does not support server-sent events...";
-				}
-			</script>
     </div>
 	
 		<h1>Alertas Recebidos</h1>
 		<div id="Alerta"></div>
 
-			<script>
-				if(typeof(EventSource) !== "undefined") {
-				  var source = new EventSource("http://localhost:8080/sse/user?nome=Cesar_ALERTA");
-				  source.onmessage = function(event) {
-					document.getElementById("Alerta").innerHTML += event.data + "<br>";
-				  };
-				} else {
-				  document.getElementById("Alerta").innerHTML = "Sorry, your browser does not support server-sent events...";
-				}
-			</script>
     </div>
     </div>
 
